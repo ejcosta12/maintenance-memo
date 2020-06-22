@@ -12,6 +12,7 @@ import {
   AreaForm,
   HeaderForm,
   FormValues,
+  Loader,
 } from '../../components';
 
 import { locations } from '../../constants';
@@ -41,6 +42,7 @@ const RegisterMotor: React.FC = () => {
   const [finishForm, setFinishForm] = useState(false);
   const [motor, setMotor] = useState<Motor>({} as Motor);
   const [newMotor, setNewMotor] = useState<Motor>({} as Motor);
+  const [load, setLoad] = useState(false);
 
   const nameLocalUnit = !!motor.localUnit ? locations[motor.localUnit - 1].unit : undefined;
   const nameLocalArea = !!motor.localUnit ? locations[motor.localUnit - 1].area[motor.localArea - 1] : undefined;
@@ -59,8 +61,12 @@ const RegisterMotor: React.FC = () => {
 
   useEffect(() => {
     async function loadMotor(): Promise<void> {
+      setLoad(true);
       const responseMotor = await api.get(`/motors/listmotor/${numId}`);
       setMotor(responseMotor.data);
+      if(!!responseMotor.status) {
+        setLoad(false);
+      }
     }
     loadMotor();
   }, [numId]);
@@ -69,16 +75,22 @@ const RegisterMotor: React.FC = () => {
     localUnit,
     localArea,
   }: FormValues): Promise<void> => {
+    setLoad(true);
     const response = await api.put(`/motors/${motor.uuId}`,{
       localUnit,
       localArea,
     })
+    if(!!response.status) {
+      setLoad(false);
+    }
     setNewMotor(response.data);
     setFinishForm(true);
   }, [motor])
 
   return (
-    <Container>
+    <>
+      {load && <Loader/>}
+      <Container>
       <AreaForm className="area-form">
         <HeaderForm nextForm={true} finishForm={finishForm}>
           Atenção: Antes de continuar é necessário que você tenha um marcardor
@@ -111,6 +123,7 @@ const RegisterMotor: React.FC = () => {
         </FormValues>
       </AreaForm>
     </Container>
+    </>
   );
 };
 

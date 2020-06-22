@@ -16,6 +16,7 @@ import {
   AreaForm,
   HeaderForm,
   FormValues,
+  Loader,
 } from '../../components';
 
 import {
@@ -43,7 +44,8 @@ const RegisterMaintenance: React.FC = () => {
   const { toggleAlerts } = useContext(MotorsContext);
   const [nextForm, setNextForm] = useState(false);
   const [finishForm, setFinishForm] = useState(false);
-  const [errorSubmitForm, setErrorSubmitForm] = useState(false)
+  const [errorSubmitForm, setErrorSubmitForm] = useState(false);
+  const [load, setLoad] = useState(false);
 
   const {numIdMotor}: Params = useParams();
 
@@ -107,13 +109,19 @@ const RegisterMaintenance: React.FC = () => {
   }, []);
 
   const handleValidateMotor = useCallback(async (numberMotor: string): Promise<void> => {
+    setLoad(true);
     try {
       const response = await api.get(`/motors/listmotor/${numberMotor}`)
       if(!!response.data.uuId && !!!formik.errors.numberMotor){
+        setLoad(false);
         setNextForm(true);
+      }
+      if (!!response.status) {
+        setLoad(false);
       }
     } catch (error) {
       setTimeout(setErrorSubmitForm(true), 10);
+      setLoad(false);
     }
   }, [formik.errors.numberMotor]);
 
@@ -121,12 +129,16 @@ const RegisterMaintenance: React.FC = () => {
       numberMotor,
       commentary,
   }: FormValues ): Promise<void> => {
-    await api.post(`/maintenance/${numberMotor}`, {
+    setLoad(true);
+    const response = await api.post(`/maintenance/${numberMotor}`, {
       resistance30s: valueResistance30s,
       resistance60s: valueResistance60s,
       resistance10m: valueResistance10m,
       commentary,
     })
+    if (!!response.status) {
+      setLoad(false);
+    }
     setNextForm(false);
     setFinishForm(false);
     formik.resetForm();
@@ -140,6 +152,8 @@ const RegisterMaintenance: React.FC = () => {
   ]);
 
   return (
+    <>
+      {load && <Loader/>}
       <Container
         ifErrorSubmitForm={errorSubmitForm}
         ifErrorFieldForm={formik.errors}
@@ -207,6 +221,7 @@ const RegisterMaintenance: React.FC = () => {
             </FormValues>
         </AreaForm>
       </Container>
+    </>
   );
 };
 

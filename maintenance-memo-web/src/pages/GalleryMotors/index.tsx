@@ -11,6 +11,7 @@ import {
   ButtonNavigation,
   InputSearch,
   Location,
+  Loader,
 } from '../../components';
 
 import { MotorsContext } from '../../context/MotorsContext';
@@ -47,6 +48,7 @@ import {
   const [quantityMotors, setQuantityMotors] = useState(0);
   const [valueSelectUnit, setValueSelectUnit] = useState(0);
   const [valueSelectArea, setValueSelectArea] = useState(0);
+  const [load, setLoad] = useState(true);
 
   const motorsContext = useContext(MotorsContext);
   const originalMotors = motorsContext.motorsPlusAlerts;
@@ -55,6 +57,7 @@ import {
 
   useEffect(() => {
     async function loadMotors(): Promise<void> {
+      setLoad(true);
       const response = await api.get('motors/maintenance', {
         params: {
           localUnit: valueSelectUnit,
@@ -66,6 +69,9 @@ import {
         setGetMotors(motorsResponse.motorsMaintenances);
         setQuantityMotors(motorsResponse.quantityTotal);
       }
+      if (!!response.status){
+        setLoad(false);
+      };
     }
     loadMotors();
   }, [valueSelectUnit, valueSelectArea]);
@@ -97,51 +103,54 @@ import {
   },[]);
 
   return (
-    <Container>
-      <HeaderPage>
-        <ButtonNavigation type='button' onClick={() => history.push('/')}> Cadastrar Manutenção </ButtonNavigation>
-      </HeaderPage>
-      <AreaSection>
-        <div className="header-section-grid">
-          <HeaderSection>
-            {
-              ((quantityMotors === 1) && (<p><strong>{quantityMotors}</strong> motor encontrado</p>)) ||
-              ((quantityMotors > 1) && (<p><strong>{quantityMotors}</strong> motores encontrados</p>)) ||
-              (<p> Nenhum motor encontrado. </p>)
-            }
-            <Location
-              valueSelectUnit={valueSelectUnit}
-              valueSelectArea={valueSelectArea}
-              handleChangeSelectUnit={handleChangeSelectUnit}
-              handleChangeSelectArea={handleChangeSelectArea}
-              ifFieldAll = {true}
-            />
-          </HeaderSection>
-          <InputSearch
+    <>
+      {load && <Loader/>}
+      <Container>
+        <HeaderPage>
+          <ButtonNavigation type='button' onClick={() => history.push('/')}> Cadastrar Manutenção </ButtonNavigation>
+        </HeaderPage>
+        <AreaSection>
+          <div className="header-section-grid">
+            <HeaderSection>
+              {
+                ((quantityMotors === 1) && (<p><strong>{quantityMotors}</strong> motor encontrado</p>)) ||
+                ((quantityMotors > 1) && (<p><strong>{quantityMotors}</strong> motores encontrados</p>)) ||
+                (<p> Nenhum motor encontrado. </p>)
+              }
+              <Location
+                valueSelectUnit={valueSelectUnit}
+                valueSelectArea={valueSelectArea}
+                handleChangeSelectUnit={handleChangeSelectUnit}
+                handleChangeSelectArea={handleChangeSelectArea}
+                ifFieldAll = {true}
+              />
+            </HeaderSection>
+            <InputSearch
 
-            valueSearchMotors = {valueSearchMotors}
-            handleChangeSearch = { handleChangeSearch }
-          />
-        </div>
-        <GridContainer>
-          { !!motorsPlusAlerts && motorsPlusAlerts.map(motor => {
-            return (
-            <MotorContainer
-              key = {motor.uuIdMotor}
-              ifColorAlert = {motor.colorAlert}
-              onClick={() => history.push(`/motor/${motor.numIdMotor}`)}
-            >
-              <div><h4>Motor: {motor.numIdMotor}</h4></div>
-              <div>Polarização: {motor.lastValueIP}</div>
-              <div>Absorção: {motor.lastValueIA}</div>
-              <div>{motor.messageAlert}</div>
-              <div><h4> Abrir </h4></div>
-            </MotorContainer>
+              valueSearchMotors = {valueSearchMotors}
+              handleChangeSearch = { handleChangeSearch }
+            />
+          </div>
+          <GridContainer>
+            { !!motorsPlusAlerts && motorsPlusAlerts.map(motor => {
+              return (
+              <MotorContainer
+                key = {motor.uuIdMotor}
+                ifColorAlert = {motor.colorAlert}
+                onClick={() => history.push(`/motor/${motor.numIdMotor}`)}
+              >
+                <div><h4>Motor: {motor.numIdMotor}</h4></div>
+                <div>Polarização: {motor.lastValueIP}</div>
+                <div>Absorção: {motor.lastValueIA}</div>
+                <div>{motor.messageAlert}</div>
+                <div><h4> Abrir </h4></div>
+              </MotorContainer>
+              )}
             )}
-          )}
-        </GridContainer>
-      </AreaSection>
-    </Container>
+          </GridContainer>
+        </AreaSection>
+      </Container>
+    </>
   )
 }
 

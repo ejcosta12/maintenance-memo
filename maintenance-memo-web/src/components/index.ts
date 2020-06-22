@@ -24,6 +24,8 @@ import {
   Table,
 } from './Elements';
 
+import Loader from './Loader';
+
 import Location from './Location';
 
 import Unit from './Unit';
@@ -45,4 +47,5 @@ export {
   Table,
   Location,
   Unit,
+  Loader,
 };

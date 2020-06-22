@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FiSearch } from 'react-icons/fi';
+import SearchIcon from '../../../assets/images/search.svg';
 
 import { Container } from './styles';
 
@@ -17,7 +17,7 @@ const InputSearch: React.FC<Props> = ({
 }) => {
   return (
     <Container>
-      <FiSearch className='icon-search-motors' size={25}/>
+      <img className='icon-search-motors' src={SearchIcon} alt="Pesquisar"/>
       <Input type="search" placeholder='Número do motor'
         value={valueSearchMotors}
         onChange={(event) => handleChangeSearch(event)}

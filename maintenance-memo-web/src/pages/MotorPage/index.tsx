@@ -11,6 +11,7 @@ import {
   Button,
   ButtonNavigation,
   Table,
+  Loader,
 } from '../../components';
 
 import { locations } from '../../constants';
@@ -52,6 +53,7 @@ const UpdateLocationMotor: React.FC = () => {
   const [motor, setMotor] = useState<Motor>({} as Motor);
   const [maintenanceMotor, setMaintenanceMotor] = useState<MaintenanceMotor[]>([]);
   const [selectOrder, setSelectOrder] = useState('desc');
+  const [load, setLoad] = useState(true);
 
   const { motorsPlusAlerts } = useContext(MotorsContext);
 
@@ -68,6 +70,7 @@ const UpdateLocationMotor: React.FC = () => {
 
   useEffect(() => {
     async function loadMotor(): Promise<void> {
+      setLoad(true);
       const response = await api.get(`/motors/listmotor/${numId}`);
       const responseMotor:Motor = response.data;
       if (!!responseMotor) {
@@ -82,16 +85,23 @@ const UpdateLocationMotor: React.FC = () => {
           messageAlert: motorData.messageAlert,
         }) : setMotor (responseMotor);
       }
+      if (!!response.status) {
+        setLoad(false);
+      }
     }
     loadMotor();
   }, [numId, motorsPlusAlerts]);
 
   useEffect (() => {
     async function loadMaintenancesMotor(): Promise<void> {
+      setLoad(true);
       const response = await api.get(`/maintenance/${motor.uuId}?order=${selectOrder}`);
       const maintenancesMotorResponse: MaintenanceMotor[] = response.data;
       setMaintenanceMotor(maintenancesMotorResponse);
       console.log(selectOrder);
+      if (!!response.status) {
+        setLoad(false);
+      }
     }
     if (!!motor.uuId) {
       loadMaintenancesMotor();
@@ -101,8 +111,12 @@ const UpdateLocationMotor: React.FC = () => {
   const { maintenancesPlusAlerts } = useAlertsMaintenances(maintenanceMotor);
 
   const handleDeleteMotor = useCallback ( async () => {
+    setLoad(true);
     if (!!window.confirm('Tem certeza que deseja excluir este motor permanentemente?')) {
       const response = await api.delete(`/motors/${motor.uuId}`);
+      if (!!response.status) {
+        setLoad(false);
+      }
       if (response.status === 204) {
         history.push('/gallery-motor');
         alert('O motor foi excluído com sucesso');
@@ -114,7 +128,9 @@ const UpdateLocationMotor: React.FC = () => {
   }, [motor, history]);
 
   return (
-    <Container
+    <>
+      {load && <Loader/>}
+      <Container
       ifSelectOrder={selectOrder}
       ifColorAlert={motor.colorAlert}
     >
@@ -205,6 +221,7 @@ const UpdateLocationMotor: React.FC = () => {
         <div></div>
       )}
     </Container>
+    </>
   )
 };
 export default UpdateLocationMotor;

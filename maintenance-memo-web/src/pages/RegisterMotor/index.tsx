@@ -11,6 +11,7 @@ import {
   AreaForm,
   HeaderForm,
   FormValues,
+  Loader,
 } from '../../components';
 
 import Stage01 from './Stage01';
@@ -27,6 +28,7 @@ const RegisterMotor: React.FC = () => {
 
   const [finishForm, setFinishForm] = useState(false);
   const [numId, setNumId] = useState('');
+  const [load, setLoad] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -61,12 +63,16 @@ const RegisterMotor: React.FC = () => {
     localUnit,
     localArea,
   }: FormValues): Promise<void> => {
+    setLoad(true);
     const response = await api.post('/motors', {
       type,
       power,
       localUnit,
       localArea,
     });
+    if (!!response.status) {
+      setLoad(false);
+    }
     setNumId(response.data.numId);
     setFinishForm(true);
   }, [])
@@ -77,7 +83,9 @@ const RegisterMotor: React.FC = () => {
   } = formik.values;
 
   return (
-    <Container ifErrorFieldForm={formik.errors}>
+    <>
+      {load && <Loader/>}
+      <Container ifErrorFieldForm={formik.errors}>
       <AreaForm className="area-form">
         <HeaderForm nextForm={true} finishForm={finishForm}>
           Atenção: Antes de continuar é necessário que você tenha um marcardor
@@ -111,6 +119,7 @@ const RegisterMotor: React.FC = () => {
         </FormValues>
       </AreaForm>
     </Container>
+    </>
   );
 };
 
