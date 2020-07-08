@@ -1,7 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import { useFormik } from 'formik';
 
 import api from '../../services/api';
+
+import { MotorsContext } from '../../context/MotorsContext';
 
 import {
   Container
@@ -25,6 +27,8 @@ interface FormValues {
 }
 
 const RegisterMotor: React.FC = () => {
+
+  const { toggleAlerts } = useContext(MotorsContext);
 
   const [finishForm, setFinishForm] = useState(false);
   const [numId, setNumId] = useState('');
@@ -75,7 +79,8 @@ const RegisterMotor: React.FC = () => {
     }
     setNumId(response.data.numId);
     setFinishForm(true);
-  }, [])
+    toggleAlerts()
+  }, [toggleAlerts])
 
   const {
     type,

@@ -162,7 +162,7 @@ const UpdateLocationMotor: React.FC = () => {
             <span>Área: <strong>{nameLocalArea}</strong></span>
           </div>
           <div>
-            <span> Cadastrado desde <strong>{dateCreatedMotor}</strong></span>
+            <span> Cadastrado desde <strong>{motor.created_at}</strong></span>
           </div>
           <div>
             {motor.messageAlert}

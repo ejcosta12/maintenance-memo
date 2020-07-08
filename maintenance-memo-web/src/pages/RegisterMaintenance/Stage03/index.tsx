@@ -60,7 +60,7 @@ const Stage03: React.FC<Props> = ({
         </p>
         <p>Condição:
           {
-            !!((absorptionIndex <= 1.4 )||(polarizationIndex <= 2)) ?
+            !!((absorptionIndex <= 1.25 )||(polarizationIndex <= 2)) ?
             ' O equipamento precisará ser avaliado pelo responsável.'
             :' Equipamento em ótimo estado.'
           }
