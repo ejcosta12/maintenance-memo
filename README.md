@@ -1,44 +1,40 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h1 align="center"> :mechanic: MAINTENANCE MEMO </h1>
+<h4 align="center">
+ Project for maintenance management of electric motors in industrial production processes.
+</h4>
 
-## Available Scripts
+## :camera: About
+<p align="center">
+  <span>✅ <strong>Motor Register</strong> </span>
+  <span>✅ <strong>Maintenance Register</strong> </span>
+  <span>✅ <strong>Motors gallery</strong> </span>
+</p>
+<p align="center">
+  <span>✅ <strong>Motor data</strong> </span>
+  <span>✅ <strong>Update Location Motor</strong> </span>
+  <span>✅ <strong>Motors notifications and message status</strong> </span>
+</p>
+<p align="center">
+  <img alt="screen-shot-01" src="https://res.cloudinary.com/dggw1b0tr/image/upload/v1593102111/Maintenance-Memo/screenShot01_a0v4jk.png"></img>
+  </br>
+  </br>
+  <img alt="screen-shot-02" src="https://res.cloudinary.com/dggw1b0tr/image/upload/v1593102111/Maintenance-Memo/screenShot02_lvq6p2.png"></img>
+  </br>
+  </br>
+  <img alt="screen-shot-03" src="https://res.cloudinary.com/dggw1b0tr/image/upload/v1593102113/Maintenance-Memo/screenShot03_tdbuyy.png"></img>
+  </br>
+  </br>
+  <img alt="screen-shot-04" src="https://res.cloudinary.com/dggw1b0tr/image/upload/v1593102111/Maintenance-Memo/screenShot04_xxy2qi.png"></img>
+  </br>
+  </br>
+</p>
+<p align="justify">
+ <strong>
+  This project is oriented towards the end of course work "SISTEMA WEB ORIENTADO A MOTORES ELÉTRICOS NO CONTEXTO INDUSTRIAL", presented to the electrical engineering course, its main objective is to reduce damage to electric motors in the     industrial environment. Through the maintenance team itself the data can be registered and the system guides decisions for maintenance and inspection of the equipments.
+ </strong>
+</p>
+<p>
+ 🔋 TypeScript | ⌨ NodeJs | 💻 React | 💾 PostgreSQL
+</p>
 
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### I thank GOD for the evolution of all this work, from its idealization, theoretical development, to its practical conception!
