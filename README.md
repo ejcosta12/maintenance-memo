@@ -83,3 +83,5 @@ Installation of all necessary dependencies.
 Start the application at the address localhost using port 3000.
 
 ### I thank GOD for the evolution of all this work, from its idealization, theoretical development, to its practical conception!
+
+#### This project will continue with the creation of the users area with the proposal of a reusable dashboard for other systems.
