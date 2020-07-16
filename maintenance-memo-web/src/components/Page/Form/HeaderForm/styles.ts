@@ -73,7 +73,7 @@ export const ProgressArea = styled.div<StatusFormProps>`
     margin: 0 10px;
   }
 
-  ${(props) => !props.ifNextForm && css`
+  ${({ ifNextForm }) => !ifNextForm && css`
   div {
         background: #0D3E3D;
         & + div {
@@ -82,7 +82,7 @@ export const ProgressArea = styled.div<StatusFormProps>`
       }
   `}
 
-  ${(props) => props.ifNextForm && !props.ifFinishForm && css`
+  ${({ ifNextForm, ifFinishForm }) => ifNextForm && !ifFinishForm && css`
   div {
         background: #0D3E3D;
         + div {
@@ -93,7 +93,7 @@ export const ProgressArea = styled.div<StatusFormProps>`
         }
       }
   `}
-  ${(props) => props.ifNextForm && props.ifFinishForm && css`
+  ${({ ifNextForm, ifFinishForm }) => ifNextForm && ifFinishForm && css`
   div {
         background: #0D3E3D;
       }

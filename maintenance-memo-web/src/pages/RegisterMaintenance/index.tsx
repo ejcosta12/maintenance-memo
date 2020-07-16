@@ -40,14 +40,63 @@ interface Params {
 }
 
 const RegisterMaintenance: React.FC = () => {
-
   const { toggleAlerts } = useContext(MotorsContext);
   const [nextForm, setNextForm] = useState(false);
   const [finishForm, setFinishForm] = useState(false);
   const [errorSubmitForm, setErrorSubmitForm] = useState(false);
   const [load, setLoad] = useState(false);
 
-  const {numIdMotor}: Params = useParams();
+  const { numIdMotor }: Params = useParams();
+
+  const handleValidateForm = useCallback(({
+    numberMotor,
+    resistance30s,
+    resistance60s,
+    resistance10m,
+  }: FormValues) => {
+    const errors: Partial<FormValues> = {};
+    if (!numberMotor) {
+      errors.numberMotor = 'Insira o número do motor';
+    } else {
+      setErrorSubmitForm(false);
+    }
+    if (!resistance30s) {
+      errors.resistance30s = 'Insira o valor obtido em 30 segundos';
+    }
+    if (!resistance60s) {
+      errors.resistance60s = 'Insira o valor obtido em 60 segundos';
+    }
+    if (!resistance10m) {
+      errors.resistance10m = 'Insira o valor obtido em 10 minutos';
+    }
+    return errors;
+  }, []);
+
+  const handleSubmitMaintenance = useCallback(async ({
+    commentary,
+    numberMotor,
+    valueResistance30s,
+    valueResistance60s,
+    valueResistance10m,
+  }): Promise<void> => {
+    setLoad(true);
+    const response = await api.post(`/maintenance/${numberMotor}`, {
+      resistance30s: valueResistance30s,
+      resistance60s: valueResistance60s,
+      resistance10m: valueResistance10m,
+      commentary,
+    });
+    if (response.status) {
+      setLoad(false);
+    }
+    setNextForm(false);
+    setFinishForm(false);
+    formik.resetForm();
+    toggleAlerts();
+  }, [
+    formik,
+    toggleAlerts,
+  ]);
 
   const formik = useFormik({
     initialValues: {
@@ -60,9 +109,27 @@ const RegisterMaintenance: React.FC = () => {
       unitResistance10m: '3',
       commentary: '',
     },
-    validate: values => handleValidateForm(values),
-    onSubmit: values => {
-      handleSubmitMaintenance (values);
+    validate: (values) => handleValidateForm(values),
+    onSubmit: ({
+      commentary,
+      numberMotor,
+      unitResistance30s,
+      resistance30s,
+      unitResistance60s,
+      resistance60s,
+      unitResistance10m,
+      resistance10m,
+    }) => {
+      const valueResistance30s = useConvertUnit(unitResistance30s, resistance30s);
+      const valueResistance60s = useConvertUnit(unitResistance60s, resistance60s);
+      const valueResistance10m = useConvertUnit(unitResistance10m, resistance10m);
+      handleSubmitMaintenance({
+        commentary,
+        numberMotor,
+        valueResistance30s,
+        valueResistance60s,
+        valueResistance10m,
+      });
     },
   });
 
@@ -74,49 +141,21 @@ const RegisterMaintenance: React.FC = () => {
     unitResistance60s,
     resistance10m,
     unitResistance10m,
-    commentary
+    commentary,
   } = formik.values;
 
-  const polarizationIndex = Number (resistance10m) / Number(resistance60s);
-  const absorptionIndex = Number (resistance60s) / Number(resistance30s);
+  const polarizationIndex = Number(resistance10m) / Number(resistance60s);
+  const absorptionIndex = Number(resistance60s) / Number(resistance30s);
 
-  const valueResistance30s = useConvertUnit(unitResistance30s, resistance30s);
-  const valueResistance60s = useConvertUnit(unitResistance60s, resistance60s);
-  const valueResistance10m = useConvertUnit(unitResistance10m, resistance10m);
-
-  const handleValidateForm = useCallback(({
-    numberMotor,
-    resistance30s,
-    resistance60s,
-    resistance10m,
-  }: FormValues ) => {
-    const errors: Partial<FormValues> = {};
-    if (!numberMotor){
-      errors.numberMotor = 'Insira o número do motor';
-    } else {
-      setErrorSubmitForm(false);
-    }
-    if (!resistance30s){
-      errors.resistance30s = 'Insira o valor obtido em 30 segundos';
-    }
-    if (!resistance60s){
-      errors.resistance60s = 'Insira o valor obtido em 60 segundos';
-    }
-    if (!resistance10m){
-      errors.resistance10m = 'Insira o valor obtido em 10 minutos';
-    }
-    return errors;
-  }, []);
-
-  const handleValidateMotor = useCallback(async (numberMotor: string): Promise<void> => {
+  const handleValidateMotor = useCallback(async (numberMotorValidate: string): Promise<void> => {
     setLoad(true);
     try {
-      const response = await api.get(`/motors/listmotor/${numberMotor}`)
-      if(!!response.data.uuId && !!!formik.errors.numberMotor){
+      const response = await api.get(`/motors/listmotor/${numberMotorValidate}`);
+      if (!!response.data.uuId && !formik.errors.numberMotor) {
         setLoad(false);
         setNextForm(true);
       }
-      if (!!response.status) {
+      if (response.status) {
         setLoad(false);
       }
     } catch (error) {
@@ -125,35 +164,9 @@ const RegisterMaintenance: React.FC = () => {
     }
   }, [formik.errors.numberMotor]);
 
-  const handleSubmitMaintenance = useCallback( async ({
-      numberMotor,
-      commentary,
-  }: FormValues ): Promise<void> => {
-    setLoad(true);
-    const response = await api.post(`/maintenance/${numberMotor}`, {
-      resistance30s: valueResistance30s,
-      resistance60s: valueResistance60s,
-      resistance10m: valueResistance10m,
-      commentary,
-    })
-    if (!!response.status) {
-      setLoad(false);
-    }
-    setNextForm(false);
-    setFinishForm(false);
-    formik.resetForm();
-    toggleAlerts();
-  }, [
-    formik,
-    toggleAlerts,
-    valueResistance30s,
-    valueResistance60s,
-    valueResistance10m,
-  ]);
-
   return (
     <>
-      {load && <Loader/>}
+      {load && <Loader />}
       <Container
         ifErrorSubmitForm={errorSubmitForm}
         ifErrorFieldForm={formik.errors}
@@ -192,7 +205,7 @@ const RegisterMaintenance: React.FC = () => {
                   setNextForm={setNextForm}
                   handleBlur={formik.handleBlur}
                   handleChange={formik.handleChange}
-                  errors = {{
+                  errors={{
                     numberMotor: formik.errors.numberMotor,
                     submitForm: errorSubmitForm,
                     resistance30s: formik.errors.resistance30s,
@@ -218,7 +231,7 @@ const RegisterMaintenance: React.FC = () => {
                 />
               )
             }
-            </FormValues>
+          </FormValues>
         </AreaForm>
       </Container>
     </>

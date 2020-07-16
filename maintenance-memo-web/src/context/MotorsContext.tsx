@@ -1,4 +1,9 @@
-import React, { createContext, useEffect, useState, useCallback } from 'react';
+import React, {
+  createContext,
+  useEffect,
+  useState,
+  useCallback,
+} from 'react';
 
 import api from '../services/api';
 
@@ -30,33 +35,39 @@ interface Motors {
 const MotorsContext = createContext<MotorsContext>({} as MotorsContext);
 
 const MotorsProvider: React.FC = ({ children }) => {
-
   const [motors, setMotors] = useState<Motor[]>([]);
   const [updateAlertsMotors, setUpdateAlertsMotors] = useState(false);
   const { motorsPlusAlerts, countAlertsIssued } = useAlertsMotors(motors);
 
   useEffect(() => {
     async function loadMotors(): Promise<void> {
-      const response = await api.get('motors/maintenance')
+      const response = await api.get('motors/maintenance');
       const motorsResponse: Motors = response.data;
-      if (!!motorsResponse.motorsMaintenances) {
+      if (motorsResponse.motorsMaintenances) {
         setMotors(motorsResponse.motorsMaintenances);
       }
     }
     loadMotors();
-  }, [ updateAlertsMotors ]);
+  }, [updateAlertsMotors]);
 
   const toggleAlerts = useCallback(() => {
-    !!updateAlertsMotors ? setUpdateAlertsMotors(false) : setUpdateAlertsMotors(true);
+    if (updateAlertsMotors) {
+      setUpdateAlertsMotors(false);
+    } else {
+      setUpdateAlertsMotors(true);
+    }
   }, [updateAlertsMotors]);
 
   return (
     <MotorsContext.Provider value={{
-      countAlertsIssued, motorsPlusAlerts, toggleAlerts
-    }}>
+      countAlertsIssued,
+      motorsPlusAlerts,
+      toggleAlerts,
+    }}
+    >
       {children}
     </MotorsContext.Provider>
-  )
+  );
 };
 
-export {MotorsContext, MotorsProvider};
+export { MotorsContext, MotorsProvider };

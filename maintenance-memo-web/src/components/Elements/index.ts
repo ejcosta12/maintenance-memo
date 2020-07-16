@@ -13,5 +13,5 @@ export {
   InputSearch,
   Label,
   Select,
-  Table
+  Table,
 };

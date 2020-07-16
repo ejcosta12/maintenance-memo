@@ -1,8 +1,6 @@
+import { units } from '../constants';
 
-import { units } from '../constants'
-
-function useConvertUnit (option:string, value:number | string) {
-
+function useConvertUnit(option:string, value:number | string):number {
   const valueNumber = Number(value);
   switch (option) {
     case '1':
@@ -25,9 +23,9 @@ function useConvertUnit (option:string, value:number | string) {
       return (valueNumber / units.giga.multiplier);
     case '10':
       return (valueNumber / units.tera.multiplier);
+    default:
+      return valueNumber;
   }
-
-  return valueNumber;
 }
 
 export default useConvertUnit;

@@ -1,6 +1,6 @@
 import {
   HeaderSection,
-  AreaSection
+  AreaSection,
 } from './Section';
 
 import {

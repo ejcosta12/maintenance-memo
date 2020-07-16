@@ -46,8 +46,8 @@ export const MotorContainer = styled.div<MotorProps>`
     margin-bottom: 50px;
   }
 
-  ${(props) => !!props.ifColorAlert && css`
-    background: ${props.ifColorAlert};
+  ${({ ifColorAlert }) => ifColorAlert && css`
+    background: ${ifColorAlert};
   `}
 
   div:nth-child(4) {
@@ -57,7 +57,7 @@ export const MotorContainer = styled.div<MotorProps>`
     line-height: 25px;
   }
 
-  ${(props) => props.ifColorAlert === '#ffffff' && css`
+  ${({ ifColorAlert }) => ifColorAlert === '#ffffff' && css`
     color: rgba(0, 0, 0, 0.8);
     && div:nth-child(4) {
       border-top: 5px solid rgba(0, 0, 0, 0.3);

@@ -14,7 +14,7 @@ interface Props {
   handleChangeSelectArea: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   handleChangeBlurUnit?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   handleChangeBlurArea?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-};
+}
 
 const Location: React.FC<Props> = ({
   valueSelectUnit,
@@ -24,43 +24,40 @@ const Location: React.FC<Props> = ({
   handleChangeSelectArea,
   handleChangeBlurUnit,
   handleChangeBlurArea,
-}) => {
-
-  return (
-    <Container>
-      <div className="select" >
-        <Label> Unidade: </Label>
+}) => (
+  <Container>
+    <div className="select">
+      <Label> Unidade: </Label>
+      <Select
+        name="localUnit"
+        value={valueSelectUnit}
+        onChange={(event) => handleChangeSelectUnit(event)}
+        onBlur={() => handleChangeBlurUnit}
+      >
+        {ifFieldAll && <option value={0}> Todas </option>}
+        { locations.map((location, index) => (
+          <option key={location.unit} value={index + 1}>{location.unit}</option>
+        ))}
+      </Select>
+    </div>
+    { valueSelectUnit > 0 && (
+      <div className="select">
+        <Label> Área: </Label>
         <Select
-          name="localUnit"
-          value={valueSelectUnit}
-          onChange={(event) => handleChangeSelectUnit(event)}
-          onBlur={() => handleChangeBlurUnit}
+          name="localArea"
+          value={valueSelectArea}
+          onChange={(event) => handleChangeSelectArea(event)}
+          onBlur={() => handleChangeBlurArea}
         >
-          {ifFieldAll && <option value={0}> Todas </option>}
-          { locations.map((location, index)=> (
-            <option key={index} value={index + 1}>{location.unit}</option>
+          { ifFieldAll && <option value={0}> Todas </option>}
+          { locations[Number(valueSelectUnit) - 1].area.map((localArea, index) => (
+            <option key={localArea} value={index + 1}>{localArea}</option>
           ))}
         </Select>
       </div>
-      { valueSelectUnit > 0 && (
-        <div className="select">
-          <Label> Área: </Label>
-          <Select
-            name="localArea"
-            value={valueSelectArea}
-            onChange={(event) => handleChangeSelectArea(event)}
-            onBlur={() => handleChangeBlurArea}
-          >
-            { ifFieldAll && <option value={0}> Todas </option>}
-            { locations[Number(valueSelectUnit) - 1].area.map((localArea, index) => (
-              <option key={index} value={index + 1}>{localArea}</option>
-            ))}
-          </Select>
-        </div>
-      )}
-    </Container>
+    )}
+  </Container>
 
-  );
-};
+);
 
 export default Location;

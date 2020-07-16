@@ -14,6 +14,6 @@ const units = {
   tera: {
     multiplier: 1000000000000,
   },
-}
+};
 
 export default units;

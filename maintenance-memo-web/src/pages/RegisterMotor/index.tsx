@@ -27,7 +27,6 @@ interface FormValues {
 }
 
 const RegisterMotor: React.FC = () => {
-
   const { toggleAlerts } = useContext(MotorsContext);
 
   const [finishForm, setFinishForm] = useState(false);

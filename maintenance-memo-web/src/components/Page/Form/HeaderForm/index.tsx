@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { Container, ProgressArea } from './styles';
@@ -16,20 +16,20 @@ const HeaderForm: React.FC<PropsForm> = ({
   nextForm,
   finishForm,
 }: PropsForm) => {
-
   const { countAlertsIssued } = useContext(MotorsContext);
   const history = useHistory();
 
   return (
     <Container>
       <div>
-        <h1 onClick={() => history.push('/gallery-motor')}>
+        <h1>
           MAINTENANCE MEMO
         </h1>
       </div>
       <div>
         <p>
-          {countAlertsIssued} Noitifcações
+          {countAlertsIssued}
+          Noitifcações
         </p>
         <Button onClick={() => history.push('/gallery-motor')}>
           Ver Registros
