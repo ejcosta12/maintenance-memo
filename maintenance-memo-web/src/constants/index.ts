@@ -7,7 +7,7 @@ import {
 
 import locations from './locations';
 
-import units from './units';
+import convertUnit from './units';
 
 export {
   polarizationIndex,
@@ -15,5 +15,5 @@ export {
   limitDateLastMaintenance,
   noAlerts,
   locations,
-  units,
+  convertUnit,
 };

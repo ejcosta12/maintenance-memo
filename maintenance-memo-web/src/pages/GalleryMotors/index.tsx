@@ -125,13 +125,13 @@ const GalleryMotors: React.FC = () => {
                 ((quantityMotors === 1) && (
                   <p>
                     <strong>{quantityMotors}</strong>
-                    motor encontrado
+                    <span> motor encontrado </span>
                   </p>
                 ))
                 || ((quantityMotors > 1) && (
                   <p>
                     <strong>{quantityMotors}</strong>
-                    motores encontrados
+                    <span> motores encontrados </span>
                   </p>
                 ))
                 || (<p> Nenhum motor encontrado. </p>)
@@ -145,7 +145,6 @@ const GalleryMotors: React.FC = () => {
               />
             </HeaderSection>
             <InputSearch
-
               valueSearchMotors={valueSearchMotors}
               handleChangeSearch={handleChangeSearch}
             />

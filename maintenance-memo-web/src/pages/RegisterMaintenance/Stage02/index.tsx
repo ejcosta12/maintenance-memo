@@ -11,7 +11,7 @@ import {
   ButtonNavigation,
   ErrorsForm,
   Unit,
-} from '../../../components'
+} from '../../../components';
 
 
 interface Errors {
@@ -53,94 +53,104 @@ const Stage02: React.FC<Props> = ({
   handleBlur,
   handleChange,
   errors,
-}: Props) => {
-
-
-  return (
-    <Container>
-      <Label>Motor: {numberMotor}</Label>
-      <Label> Resistência de isolamento </Label>
-      <div>
-        <Input
-          type="number"
-          id="resistance30s"
-          name="resistance30s"
-          onChange={handleChange}
-          value={resistance30s}
-          placeholder='5,2'
-        />
-        <Unit
-          nameField="unitResistance30s"
-          valueSelect={unitResistance30s}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-        />
-        <span> 30 seg</span>
-      </div>
-      <div>
-        <Input
-          type="number"
-          id="resistance60s"
-          name="resistance60s"
-          onChange={handleChange}
-          value={resistance60s}
-          placeholder='5,2'
-        />
-        <Unit
-          nameField="unitResistance60s"
-          valueSelect={unitResistance60s}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-        />
-        <span> 60 seg</span>
-      </div>
-      <div>
-        <Input
-          type="number"
-          id="resistance10m"
-          name="resistance10m"
-          onChange={handleChange}
-          value={resistance10m}
-          placeholder='5,2'
-        />
-        <Unit
-          nameField="unitResistance10m"
-          valueSelect={unitResistance10m}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
-        />
-        <span> 10 min</span>
-      </div>
-      <ErrorsForm>
-        <div>
-          {
-            errors.resistance30s ||
-            errors.resistance60s ||
-            errors.resistance10m
-          }
-        </div>
-      </ErrorsForm>
-      <Label> Observações </Label>
-      <textarea
-        name="commentary"
+}: Props) => (
+  <Container>
+    <Label>
+      Motor:
+      {numberMotor}
+    </Label>
+    <Label> Resistência de isolamento </Label>
+    <div>
+      <Input
+        type="number"
+        id="resistance30s"
+        name="resistance30s"
         onChange={handleChange}
-        value={commentary}
-        placeholder='Exemplo “Cabos de ligação estavam mal conectados.”'
+        value={resistance30s}
+        placeholder="5,2"
       />
+      <Unit
+        nameField="unitResistance30s"
+        valueSelect={unitResistance30s}
+        handleChange={handleChange}
+        handleBlur={handleBlur}
+      />
+      <span> 30 seg</span>
+    </div>
+    <div>
+      <Input
+        type="number"
+        id="resistance60s"
+        name="resistance60s"
+        onChange={handleChange}
+        value={resistance60s}
+        placeholder="5,2"
+      />
+      <Unit
+        nameField="unitResistance60s"
+        valueSelect={unitResistance60s}
+        handleChange={handleChange}
+        handleBlur={handleBlur}
+      />
+      <span> 60 seg</span>
+    </div>
+    <div>
+      <Input
+        type="number"
+        id="resistance10m"
+        name="resistance10m"
+        onChange={handleChange}
+        value={resistance10m}
+        placeholder="5,2"
+      />
+      <Unit
+        nameField="unitResistance10m"
+        valueSelect={unitResistance10m}
+        handleChange={handleChange}
+        handleBlur={handleBlur}
+      />
+      <span> 10 min</span>
+    </div>
+    <ErrorsForm>
       <div>
-        <Button type="button" onClick={() => {
-          !errors.resistance30s &&
-          !errors.resistance60s &&
-          !errors.resistance10m ?
-          setFinishForm(true) :
-          setFinishForm(false)
-        }}>CONTINUAR</Button>
-        <ButtonNavigation type="button" onClick={() => setNextForm(false)}>
-          Voltar
-        </ButtonNavigation>
+        {
+          errors.resistance30s
+          || errors.resistance60s
+          || errors.resistance10m
+        }
       </div>
-    </Container>
-  );
-};
+    </ErrorsForm>
+    <Label> Observações </Label>
+    <textarea
+      name="commentary"
+      onChange={handleChange}
+      value={commentary}
+      placeholder="Exemplo “Cabos de ligação estavam mal conectados.”"
+    />
+    <div>
+      <Button
+        type="button"
+        onClick={
+          () => {
+            if (
+              !errors.resistance30s
+              && !errors.resistance60s
+              && !errors.resistance10m
+            ) {
+              setFinishForm(true);
+            } else {
+              setFinishForm(false);
+            }
+          }
+        }
+      >
+        CONTINUAR
+      </Button>
+      <ButtonNavigation type="button" onClick={() => setNextForm(false)}>
+        Voltar
+      </ButtonNavigation>
+    </div>
+  </Container>
+);
 
 export default Stage02;

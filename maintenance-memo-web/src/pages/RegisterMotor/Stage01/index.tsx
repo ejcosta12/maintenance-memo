@@ -12,7 +12,7 @@ import {
   ButtonNavigation,
   ErrorsForm,
   Location,
-} from '../../../components'
+} from '../../../components';
 
 
 interface Errors {
@@ -40,9 +40,7 @@ const Stage01: React.FC<Props> = ({
   handleChange,
   errors,
 }: Props) => {
-
   const history = useHistory();
-
 
   return (
     <Container>
@@ -53,7 +51,7 @@ const Stage01: React.FC<Props> = ({
           name="type"
           onChange={handleChange}
           value={type}
-          placeholder='CA'
+          placeholder="CA"
         />
         <ErrorsForm>
           <div>{errors.type}</div>
@@ -67,7 +65,7 @@ const Stage01: React.FC<Props> = ({
             name="power"
             onChange={handleChange}
             value={power}
-            placeholder='2'
+            placeholder="2"
           />
           <span>CV</span>
         </div>
@@ -76,12 +74,12 @@ const Stage01: React.FC<Props> = ({
         </ErrorsForm>
       </div>
       <Location
-        valueSelectUnit = {Number(localUnit)}
-        valueSelectArea = {Number(localArea)}
-        handleChangeSelectUnit = {handleChange}
-        handleChangeSelectArea = {handleChange}
-        handleChangeBlurUnit = {handleBlur}
-        handleChangeBlurArea = {handleBlur}
+        valueSelectUnit={Number(localUnit)}
+        valueSelectArea={Number(localArea)}
+        handleChangeSelectUnit={handleChange}
+        handleChangeSelectArea={handleChange}
+        handleChangeBlurUnit={handleBlur}
+        handleChangeBlurArea={handleBlur}
       />
       <div>
         <div>

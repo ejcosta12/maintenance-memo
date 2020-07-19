@@ -9,7 +9,7 @@ import {
   Button,
   ButtonNavigation,
   Location,
-} from '../../../components'
+} from '../../../components';
 
 interface Props {
   numId: number;
@@ -31,26 +31,40 @@ const Stage01: React.FC<Props> = ({
   handleBlur,
   handleChange,
 }: Props) => {
-
   const history = useHistory();
 
   return (
     <Container>
       <div>
-        <span>Número do motor: <strong>{ numId }</strong></span>
-        <span>Unidade atual: <strong>{ nameLocalUnit }</strong></span>
-        <span>Área atual: <strong>{ nameLocalArea }</strong></span>
+        <span>
+          Número do motor:
+          <strong>
+            { numId }
+          </strong>
+        </span>
+        <span>
+          Unidade atual:
+          <strong>
+            { nameLocalUnit }
+          </strong>
+        </span>
+        <span>
+          Área atual:
+          <strong>
+            { nameLocalArea }
+          </strong>
+        </span>
       </div>
       <span>
         <strong>---------- Novo Endereço ----------</strong>
       </span>
       <Location
-        valueSelectUnit = {Number(localUnit)}
-        valueSelectArea = {Number(localArea)}
-        handleChangeSelectUnit = {handleChange}
-        handleChangeSelectArea = {handleChange}
-        handleChangeBlurUnit = {handleBlur}
-        handleChangeBlurArea = {handleBlur}
+        valueSelectUnit={Number(localUnit)}
+        valueSelectArea={Number(localArea)}
+        handleChangeSelectUnit={handleChange}
+        handleChangeSelectArea={handleChange}
+        handleChangeBlurUnit={handleBlur}
+        handleChangeBlurArea={handleBlur}
       />
       <div>
         <div>

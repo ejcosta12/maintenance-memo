@@ -6,7 +6,7 @@ import api from '../../services/api';
 
 import { MotorsContext } from '../../context/MotorsContext';
 
-import { useConvertUnit } from '../../hooks';
+import { convertUnit } from '../../constants';
 
 import Stage01 from './Stage01';
 import Stage02 from './Stage02';
@@ -48,56 +48,6 @@ const RegisterMaintenance: React.FC = () => {
 
   const { numIdMotor }: Params = useParams();
 
-  const handleValidateForm = useCallback(({
-    numberMotor,
-    resistance30s,
-    resistance60s,
-    resistance10m,
-  }: FormValues) => {
-    const errors: Partial<FormValues> = {};
-    if (!numberMotor) {
-      errors.numberMotor = 'Insira o número do motor';
-    } else {
-      setErrorSubmitForm(false);
-    }
-    if (!resistance30s) {
-      errors.resistance30s = 'Insira o valor obtido em 30 segundos';
-    }
-    if (!resistance60s) {
-      errors.resistance60s = 'Insira o valor obtido em 60 segundos';
-    }
-    if (!resistance10m) {
-      errors.resistance10m = 'Insira o valor obtido em 10 minutos';
-    }
-    return errors;
-  }, []);
-
-  const handleSubmitMaintenance = useCallback(async ({
-    commentary,
-    numberMotor,
-    valueResistance30s,
-    valueResistance60s,
-    valueResistance10m,
-  }): Promise<void> => {
-    setLoad(true);
-    const response = await api.post(`/maintenance/${numberMotor}`, {
-      resistance30s: valueResistance30s,
-      resistance60s: valueResistance60s,
-      resistance10m: valueResistance10m,
-      commentary,
-    });
-    if (response.status) {
-      setLoad(false);
-    }
-    setNextForm(false);
-    setFinishForm(false);
-    formik.resetForm();
-    toggleAlerts();
-  }, [
-    formik,
-    toggleAlerts,
-  ]);
-
   const formik = useFormik({
     initialValues: {
       numberMotor: numIdMotor || '',
@@ -109,27 +59,56 @@ const RegisterMaintenance: React.FC = () => {
       unitResistance10m: '3',
       commentary: '',
     },
-    validate: (values) => handleValidateForm(values),
-    onSubmit: ({
-      commentary,
+    validate: ({
       numberMotor,
-      unitResistance30s,
       resistance30s,
-      unitResistance60s,
       resistance60s,
-      unitResistance10m,
       resistance10m,
     }) => {
-      const valueResistance30s = useConvertUnit(unitResistance30s, resistance30s);
-      const valueResistance60s = useConvertUnit(unitResistance60s, resistance60s);
-      const valueResistance10m = useConvertUnit(unitResistance10m, resistance10m);
-      handleSubmitMaintenance({
+      const errors: Partial<FormValues> = {};
+      if (!numberMotor) {
+        errors.numberMotor = 'Insira o número do motor';
+      } else {
+        setErrorSubmitForm(false);
+      }
+      if (!resistance30s) {
+        errors.resistance30s = 'Insira o valor obtido em 30 segundos';
+      }
+      if (!resistance60s) {
+        errors.resistance60s = 'Insira o valor obtido em 60 segundos';
+      }
+      if (!resistance10m) {
+        errors.resistance10m = 'Insira o valor obtido em 10 minutos';
+      }
+      return errors;
+    },
+    onSubmit: async ({
+      numberMotor,
+      commentary,
+      unitResistance30s,
+      unitResistance60s,
+      unitResistance10m,
+      resistance30s,
+      resistance60s,
+      resistance10m,
+    }: FormValues): Promise<void> => {
+      const valueResistance30s = convertUnit(unitResistance30s, resistance30s);
+      const valueResistance60s = convertUnit(unitResistance60s, resistance60s);
+      const valueResistance10m = convertUnit(unitResistance10m, resistance10m);
+      setLoad(true);
+      const response = await api.post(`/maintenance/${numberMotor}`, {
+        resistance30s: valueResistance30s,
+        resistance60s: valueResistance60s,
+        resistance10m: valueResistance10m,
         commentary,
-        numberMotor,
-        valueResistance30s,
-        valueResistance60s,
-        valueResistance10m,
       });
+      if (response.status) {
+        setLoad(false);
+      }
+      setNextForm(false);
+      setFinishForm(false);
+      formik.resetForm();
+      toggleAlerts();
     },
   });
 
@@ -151,7 +130,7 @@ const RegisterMaintenance: React.FC = () => {
     setLoad(true);
     try {
       const response = await api.get(`/motors/listmotor/${numberMotorValidate}`);
-      if (!!response.data.uuId && !formik.errors.numberMotor) {
+      if (response.data.uuId && !formik.errors.numberMotor) {
         setLoad(false);
         setNextForm(true);
       }

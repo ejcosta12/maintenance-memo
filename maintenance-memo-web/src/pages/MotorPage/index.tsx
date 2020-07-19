@@ -19,9 +19,9 @@ import {
   Loader,
 } from '../../components';
 
-import { locations } from '../../constants';
+import { locations, convertUnit } from '../../constants';
 
-import { useAvarageInsulation, useAlertsMaintenances, useConvertUnit } from '../../hooks';
+import { useAvarageInsulation, useAlertsMaintenances } from '../../hooks';
 
 import { MotorsContext } from '../../context/MotorsContext';
 
@@ -62,7 +62,6 @@ const UpdateLocationMotor: React.FC = () => {
   const { motorsPlusAlerts } = useContext(MotorsContext);
 
   const avarageInsulation = useAvarageInsulation;
-  const convertUnit = useConvertUnit;
 
   const { numId } = useParams();
   const history = useHistory();
@@ -70,8 +69,6 @@ const UpdateLocationMotor: React.FC = () => {
   const nameLocalUnit = motor.localUnit ? locations[motor.localUnit - 1].unit : undefined;
   const nameLocalArea = motor.localUnit ? locations[motor.localUnit - 1]
     .area[motor.localArea - 1] : undefined;
-
-  const dateCreatedMotor = motor.created_at;
 
   useEffect(() => {
     async function loadMotor(): Promise<void> {

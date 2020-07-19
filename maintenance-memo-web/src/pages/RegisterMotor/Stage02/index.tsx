@@ -16,7 +16,6 @@ interface Props {
 const Stage02: React.FC<Props> = ({
   numId,
 }: Props) => {
-
   const history = useHistory();
 
   return (
@@ -25,7 +24,8 @@ const Stage02: React.FC<Props> = ({
         <p>Número de Identificação</p>
         <p>{numId}</p>
         <p>ATENÇÃO</p>
-        <p>O NÚMERO ACIMA NÃO SERÁ EXIBIDO NOVAMENTE, GRAVE-O IMEDIATAMENTE
+        <p>
+          O NÚMERO ACIMA NÃO SERÁ EXIBIDO NOVAMENTE, GRAVE-O IMEDIATAMENTE
           NO MOTOR.
         </p>
       </div>

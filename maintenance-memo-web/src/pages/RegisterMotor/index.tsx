@@ -6,7 +6,7 @@ import api from '../../services/api';
 import { MotorsContext } from '../../context/MotorsContext';
 
 import {
-  Container
+  Container,
 } from './styles';
 
 import {
@@ -33,34 +33,7 @@ const RegisterMotor: React.FC = () => {
   const [numId, setNumId] = useState('');
   const [load, setLoad] = useState(false);
 
-  const formik = useFormik({
-    initialValues: {
-      type: '',
-      power: '',
-      localUnit: '1',
-      localArea: '1',
-    },
-    validate: values => handleValidateForm(values),
-    onSubmit: (values) => {
-      handleSubmitMotor(values);
-    },
-  });
-
-  const handleValidateForm = useCallback(({
-    type,
-    power,
-  }: FormValues ) => {
-    const errors: Partial<FormValues> = {};
-    if (!type){
-      errors.type = 'Insira o tipo de motor (CC ou CA)';
-    }
-    if (!power){
-      errors.power = 'Insira a potência do motor em cavalos';
-    }
-    return errors;
-  }, []);
-
-  const handleSubmitMotor = useCallback( async ({
+  const handleSubmitMotor = useCallback(async ({
     type,
     power,
     localUnit,
@@ -73,13 +46,38 @@ const RegisterMotor: React.FC = () => {
       localUnit,
       localArea,
     });
-    if (!!response.status) {
+    if (response.status) {
       setLoad(false);
     }
     setNumId(response.data.numId);
     setFinishForm(true);
-    toggleAlerts()
-  }, [toggleAlerts])
+    toggleAlerts();
+  }, [toggleAlerts]);
+
+  const formik = useFormik({
+    initialValues: {
+      type: '',
+      power: '',
+      localUnit: '1',
+      localArea: '1',
+    },
+    validate: ({
+      type,
+      power,
+    }: FormValues) => {
+      const errors: Partial<FormValues> = {};
+      if (!type) {
+        errors.type = 'Insira o tipo de motor (CC ou CA)';
+      }
+      if (!power) {
+        errors.power = 'Insira a potência do motor em cavalos';
+      }
+      return errors;
+    },
+    onSubmit: (values) => {
+      handleSubmitMotor(values);
+    },
+  });
 
   const {
     type,
@@ -88,16 +86,19 @@ const RegisterMotor: React.FC = () => {
 
   return (
     <>
-      {load && <Loader/>}
+      {load && <Loader />}
       <Container ifErrorFieldForm={formik.errors}>
-      <AreaForm className="area-form">
-        <HeaderForm nextForm={true} finishForm={finishForm}>
-          Atenção: Antes de continuar é necessário que você tenha um marcardor
-          para gravar o número de identificação que será fornecido ao novo motor!
-        </HeaderForm>
-        <FormValues onSubmit={formik.handleSubmit}>
-          <h2> NOVO MOTOR </h2>
-          {
+        <AreaForm className="area-form">
+          <HeaderForm
+            nextForm={!false}
+            finishForm={finishForm}
+          >
+            Atenção: Antes de continuar é necessário que você tenha um marcardor
+            para gravar o número de identificação que será fornecido ao novo motor!
+          </HeaderForm>
+          <FormValues onSubmit={formik.handleSubmit}>
+            <h2> NOVO MOTOR </h2>
+            {
             !finishForm && (
               <Stage01
                 type={type}
@@ -108,21 +109,21 @@ const RegisterMotor: React.FC = () => {
                 handleChange={formik.handleChange}
                 errors={{
                   type: formik.errors.type,
-                  power: formik.errors.power
+                  power: formik.errors.power,
                 }}
               />
             )
           }
-          {
-            finishForm && (
-              <Stage02
-                numId={numId}
-              />
-            )
-          }
-        </FormValues>
-      </AreaForm>
-    </Container>
+            {
+              finishForm && (
+                <Stage02
+                  numId={numId}
+                />
+              )
+            }
+          </FormValues>
+        </AreaForm>
+      </Container>
     </>
   );
 };

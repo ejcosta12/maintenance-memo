@@ -4,10 +4,9 @@ import {
   Container,
 } from './styles';
 
-import {
-  useAvarageInsulation,
-  useConvertUnit,
-} from '../../../hooks';
+import { convertUnit } from '../../../constants';
+
+import { useAvarageInsulation } from '../../../hooks';
 
 import {
   Button,
@@ -39,30 +38,42 @@ const Stage03: React.FC<Props> = ({
   unitResistance10m,
   setFinishForm,
 }: Props) => {
-
-  const valueResistance30s = useConvertUnit(unitResistance30s, resistance30s);
-  const valueResistance60s = useConvertUnit(unitResistance60s, resistance60s);
-  const valueResistance10m = useConvertUnit(unitResistance10m, resistance10m);
+  const valueResistance30s = convertUnit(unitResistance30s, resistance30s);
+  const valueResistance60s = convertUnit(unitResistance60s, resistance60s);
+  const valueResistance10m = convertUnit(unitResistance10m, resistance10m);
 
   const avarageInsulation = useAvarageInsulation(
     valueResistance30s,
     valueResistance60s,
-    valueResistance10m
+    valueResistance10m,
   );
 
   return (
     <Container>
       <div>
-        <p>Motor: {numberMotor}</p>
-        <p> IP: {polarizationIndex} </p>
-        <p> IA: {absorptionIndex} </p>
-        <p>Isolamento médio: {avarageInsulation} &#x2126;
+        <p>
+          Motor:
+          {numberMotor}
         </p>
-        <p>Condição:
+        <p>
+          IP:
+          {polarizationIndex}
+        </p>
+        <p>
+          IA:
+          {absorptionIndex}
+        </p>
+        <p>
+          Isolamento médio:
+          {avarageInsulation}
+          &#x2126;
+        </p>
+        <p>
+          Condição:
           {
-            !!((absorptionIndex <= 1.25 )||(polarizationIndex <= 2)) ?
-            ' O equipamento precisará ser avaliado pelo responsável.'
-            :' Equipamento em ótimo estado.'
+            ((absorptionIndex <= 1.25) || (polarizationIndex <= 2))
+              ? ' O equipamento precisará ser avaliado pelo responsável.'
+              : ' Equipamento em ótimo estado.'
           }
         </p>
         <p>Bom Trabalho!</p>

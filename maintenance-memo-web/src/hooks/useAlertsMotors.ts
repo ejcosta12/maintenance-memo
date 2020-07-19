@@ -109,6 +109,8 @@ function useAlertsMotors(motorsRequest: Motor[]): MotorsPlusAlerts {
         });
       });
       setMotors(motorsPlusAlerts);
+    } else {
+      setMotors([]);
     }
   }, [motorsRequest]);
 

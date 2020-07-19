@@ -20,7 +20,6 @@ const Stage02: React.FC<Props> = ({
   newLocalUnit,
   newLocalArea,
 }: Props) => {
-
   const history = useHistory();
 
   return (
@@ -29,10 +28,17 @@ const Stage02: React.FC<Props> = ({
         <p>Dados gravados com sucesso</p>
         <p>Número de Identificação</p>
         <p>{numId}</p>
-        <p>Unidade: {newLocalUnit}</p>
-        <p>Area: {newLocalArea}</p>
+        <p>
+          Unidade:
+          {newLocalUnit}
+        </p>
+        <p>
+          Area:
+          {newLocalArea}
+        </p>
         <p>ATENÇÃO</p>
-        <p>O NÚMERO ACIMA NÃO SERÁ EXIBIDO NOVAMENTE, GRAVE-O IMEDIATAMENTE
+        <p>
+          O NÚMERO ACIMA NÃO SERÁ EXIBIDO NOVAMENTE, GRAVE-O IMEDIATAMENTE
           NO MOTOR.
         </p>
       </div>
