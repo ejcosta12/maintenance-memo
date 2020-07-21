@@ -18,8 +18,8 @@ interface Errors {
 }
 
 interface Props {
-  handleChange: (eventOrPath: string | React.ChangeEvent<void>) => void |
-    ((eventOrTextValue: string | React.ChangeEvent<void>) => void);
+  handleChange: (eventOrPath: string | React.ChangeEvent<any>) => void |
+  ((eventOrTextValue: string | React.ChangeEvent<any>) => void);
   valueInput: string;
   handleValidate: (valueInput: string) => Promise<void>;
   errors: Errors;
@@ -38,7 +38,7 @@ const Stage01: React.FC<Props> = ({
         id="numberMotor"
         type="number"
         name="numberMotor"
-        onChange={() => handleChange}
+        onChange={handleChange}
         value={valueInput}
         placeholder="Exemplo: 13280"
       />

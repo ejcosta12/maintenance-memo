@@ -25,6 +25,7 @@ import { useAlertsMotors } from '../../hooks';
 
 import {
   Container,
+  HeaderGridContainer,
   GridContainer,
   MotorContainer,
 } from './styles';
@@ -119,7 +120,7 @@ const GalleryMotors: React.FC = () => {
           </ButtonNavigation>
         </HeaderPage>
         <AreaSection>
-          <div className="header-section-grid">
+          <HeaderGridContainer>
             <HeaderSection>
               {
                 ((quantityMotors === 1) && (
@@ -148,7 +149,7 @@ const GalleryMotors: React.FC = () => {
               valueSearchMotors={valueSearchMotors}
               handleChangeSearch={handleChangeSearch}
             />
-          </div>
+          </HeaderGridContainer>
           <GridContainer>
             { !!motorsPlusAlerts && motorsPlusAlerts.map((motor) => (
               <MotorContainer
@@ -159,18 +160,18 @@ const GalleryMotors: React.FC = () => {
                 <div>
                   <h4>
                     Motor:
-                    {motor.numIdMotor}
+                    {` ${motor.numIdMotor}`}
                   </h4>
                 </div>
                 <div>
                   Polarização:
-                  {motor.lastValueIP}
+                  {` ${motor.lastValueIP}`}
                 </div>
                 <div>
                   Absorção:
-                  {motor.lastValueIA}
+                  {` ${motor.lastValueIA}`}
                 </div>
-                <div>{motor.messageAlert}</div>
+                <div>{` ${motor.messageAlert}`}</div>
                 <div><h4> Abrir </h4></div>
               </MotorContainer>
             ))}

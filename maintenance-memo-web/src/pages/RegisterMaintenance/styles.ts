@@ -1,4 +1,4 @@
-import styled, {css} from 'styled-components';
+import styled, { css } from 'styled-components';
 
 interface FormProps {
   numberMotor?: string;
@@ -43,25 +43,25 @@ export const Container = styled.div<StatusFormProps>`
         margin: 10px auto;
       }
 
-      ${(props) => ( !!props.ifErrorFieldForm?.numberMotor || !!props.ifErrorSubmitForm) && css`
+      ${({ ifErrorFieldForm, ifErrorSubmitForm }) => (
+    !!ifErrorFieldForm?.numberMotor || !!ifErrorSubmitForm) && css`
         #numberMotor {
           border: 2px solid #FF0F00;
         }
       `}
-      ${(props) => (
-        ( !!props.ifErrorFieldForm?.resistance30s) && css`
+      ${({ ifErrorFieldForm }) => ((!!ifErrorFieldForm?.resistance30s) && css`
         #resistance30s {
           border: 2px solid #FF0F00;
         }
-      `) ||
-      (
-        ( !!props.ifErrorFieldForm?.resistance60s) && css`
+      `)
+    || (
+      (!!ifErrorFieldForm?.resistance60s) && css`
         #resistance60s {
           border: 2px solid #FF0F00;
         }
-      `) ||
-      (
-        ( !!props.ifErrorFieldForm?.resistance10m) && css`
+      `)
+      || (
+        (!!ifErrorFieldForm?.resistance10m) && css`
         #resistance10m {
           border: 2px solid #FF0F00;
         }
@@ -69,4 +69,3 @@ export const Container = styled.div<StatusFormProps>`
     }
   }
 `;
-

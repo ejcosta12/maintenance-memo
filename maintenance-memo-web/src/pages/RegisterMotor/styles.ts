@@ -20,14 +20,12 @@ export const Container = styled.div<StatusFormProps>`
 
   form {
     > div {
-      ${(props) => (
-        !!props.ifErrorFieldForm?.type) && css`
+      ${({ ifErrorFieldForm }) => (!!ifErrorFieldForm?.type) && css`
           #type {
             border: 2px solid #FF0F00;
           }
       `}
-      ${(props) => (
-        !!props.ifErrorFieldForm?.power) && css`
+      ${({ ifErrorFieldForm }) => (!!ifErrorFieldForm?.power) && css`
           #power {
             border: 2px solid #FF0F00;
           }
@@ -38,4 +36,3 @@ export const Container = styled.div<StatusFormProps>`
   }
 }
 `;
-

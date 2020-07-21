@@ -41,7 +41,6 @@ const Stage01: React.FC<Props> = ({
   errors,
 }: Props) => {
   const history = useHistory();
-
   return (
     <Container>
       <div>

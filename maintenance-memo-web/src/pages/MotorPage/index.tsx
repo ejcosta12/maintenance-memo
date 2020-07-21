@@ -25,7 +25,12 @@ import { useAvarageInsulation, useAlertsMaintenances } from '../../hooks';
 
 import { MotorsContext } from '../../context/MotorsContext';
 
-import { Container, MaintenanceContainer } from './styles';
+import {
+  Container,
+  MotorContainer,
+  MaintenanceSectionContainer,
+  MaintenanceContainer,
+} from './styles';
 
 
 interface Motor {
@@ -136,7 +141,7 @@ const UpdateLocationMotor: React.FC = () => {
       {load && <Loader />}
       <Container
         ifSelectOrder={selectOrder}
-        ifColorAlert={motor.colorAlert}
+        ifColorMotorAlert={motor.colorAlert}
       >
         <HeaderPage className="header-page-motor">
           <ButtonNavigation onClick={() => history.push(`/maintenance-motor/${motor.numId}`)}>Cadastrar Manutenção</ButtonNavigation>
@@ -150,12 +155,15 @@ const UpdateLocationMotor: React.FC = () => {
               <Button onClick={() => handleDeleteMotor()}>Excluir Motor</Button>
             </div>
           </HeaderSection>
-          <div className="motor-section">
+          <MotorContainer
+            ifSelectOrder={selectOrder}
+            ifColorMotorAlert={motor.colorAlert}
+          >
             <div>
               <span>
                 Número do motor:
                 <strong>
-                  { motor.numId }
+                  { ` ${motor.numId}` }
                 </strong>
               </span>
               <span>
@@ -169,7 +177,7 @@ const UpdateLocationMotor: React.FC = () => {
               <span>
                 Potência:
                 <strong>
-                  { motor.power }
+                  {` ${motor.power}`}
                   CV
                 </strong>
               </span>
@@ -178,13 +186,13 @@ const UpdateLocationMotor: React.FC = () => {
               <span>
                 Unidade:
                 <strong>
-                  {nameLocalUnit}
+                  {` ${nameLocalUnit}`}
                 </strong>
               </span>
               <span>
                 Área:
                 <strong>
-                  {nameLocalArea}
+                  {` ${nameLocalArea}`}
                 </strong>
               </span>
             </div>
@@ -192,14 +200,14 @@ const UpdateLocationMotor: React.FC = () => {
               <span>
                 Cadastrado desde
                 <strong>
-                  {motor.created_at}
+                  {` ${motor.created_at}`}
                 </strong>
               </span>
             </div>
             <div>
-              {motor.messageAlert}
+              {` ${motor.messageAlert}`}
             </div>
-          </div>
+          </MotorContainer>
         </AreaSection>
         {(maintenancesPlusAlerts.length > 0) ? (
           <AreaSection>
@@ -210,7 +218,10 @@ const UpdateLocationMotor: React.FC = () => {
                 <Button onClick={() => setSelectOrder('asc')}> Antigas Primeiro </Button>
               </div>
             </HeaderSection>
-            <div className="maintenance-section">
+            <MaintenanceSectionContainer
+              ifSelectOrder={selectOrder}
+              ifColorMotorAlert={motor.colorAlert}
+            >
               <Table>
                 <thead>
                   <tr>
@@ -225,7 +236,7 @@ const UpdateLocationMotor: React.FC = () => {
                 maintenancesPlusAlerts.map((maintenance) => (
                   <MaintenanceContainer
                     key={maintenance.uuId}
-                    ifcolorAlert={maintenance.colorAlert}
+                    ifColorMaintenanceAlert={maintenance.colorAlert}
                   >
                     <tr>
                       <td>{format(new Date(maintenance.created_at), 'dd/MM/yyyy')}</td>
@@ -246,7 +257,7 @@ const UpdateLocationMotor: React.FC = () => {
                 ))
               }
               </Table>
-            </div>
+            </MaintenanceSectionContainer>
           </AreaSection>
         ) : (
           <div />

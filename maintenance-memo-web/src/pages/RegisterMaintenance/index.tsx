@@ -80,6 +80,7 @@ const RegisterMaintenance: React.FC = () => {
       if (!resistance10m) {
         errors.resistance10m = 'Insira o valor obtido em 10 minutos';
       }
+      setFinishForm(false);
       return errors;
     },
     onSubmit: async ({

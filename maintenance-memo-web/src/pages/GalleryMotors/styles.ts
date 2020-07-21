@@ -4,16 +4,16 @@ interface MotorProps {
   ifColorAlert: string | undefined;
 }
 export const Container = styled.div`
+`;
 
-  .header-section-grid {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    background: #F6F6F6;
-    position: sticky;
-    top: 0;
-  }
+export const HeaderGridContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background: #F6F6F6;
+  position: sticky;
+  top: 0;
 `;
 
 export const GridContainer = styled.div`
