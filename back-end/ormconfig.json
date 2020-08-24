@@ -1,10 +1,10 @@
 {
   "type": "postgres",
-  "host": "localhost",
+  "host": "172.31.47.22",
   "port": 5432,
   "username": "postgres",
   "password": "docker",
-  "database": "maintenance_memo",
+  "database": "postgres",
   "entities": [
     "./src/models/*.ts"
   ],
