@@ -5,6 +5,7 @@
 
 <p align="center">
   <img alt="javaScript" src="https://img.shields.io/github/languages/top/ejcosta12/maintenance-memo">
+  <img alt="javaScript" src="https://img.shields.io/github/license/ejcosta12/maintenance-memo?style=plastic">
 </p>
 
 ## :camera: About
